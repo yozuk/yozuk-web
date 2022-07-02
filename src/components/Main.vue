@@ -1,6 +1,7 @@
 <script setup>
 import Echo from './Echo.vue'
 import Result from './Result.vue'
+import Error from './Error.vue'
 import { ref, reactive } from 'vue'
 import { runCommand } from "../yozuk";
 
@@ -10,12 +11,14 @@ const chatHistory = reactive([]);
 runCommand("version info").then((res) => {
   chatHistory.push({ type: 'echo', body: { text: 'version info' }, id: counter++ });
   chatHistory.push({ ...res, id: counter++ });
-  console.log(chatHistory)
 })
-runCommand("10 uuid").then((res) => {
-  chatHistory.push({ type: 'echo', body: { text: '10 uuid' }, id: counter++ });
+runCommand("BLDdqP~BS16_Efr to qr").then((res) => {
+  chatHistory.push({ type: 'echo', body: { text: '100 words dummy text' }, id: counter++ });
   chatHistory.push({ ...res, id: counter++ });
-  console.log(chatHistory)
+})
+runCommand("100000 uuid").then((res) => {
+  chatHistory.push({ type: 'echo', body: { text: '100000 uuid' }, id: counter++ });
+  chatHistory.push({ ...res, id: counter++ });
 })
 
 </script>
@@ -61,6 +64,7 @@ runCommand("10 uuid").then((res) => {
       <div v-for="msg in chatHistory" :key="msg.id">
         <Echo v-if="msg.type === 'echo'" :msg="msg" />
         <Result v-if="msg.type === 'ok'" :msg="msg" />
+        <Error v-if="msg.type === 'fail'" :msg="msg" />
       </div>
     </div>
     <div class="commandbox fixed left-0 md:left-1/2 right-0 bottom-0 px-3 pb-3">
