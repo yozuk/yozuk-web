@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+import { runCommand } from "../yozuk";
 
 const count = ref(0)
 </script>
