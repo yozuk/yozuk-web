@@ -9,7 +9,7 @@ const props = defineProps({
 
 <template>
     <div v-for="output in msg.outputs" :key="output.title"
-        class="w-full px-4 py-2 bg-red-700 text-gray-200 text-left border-b border-red-500">
+        class="w-full px-4 py-2 md:px-6 md:py-4 bg-red-700 text-gray-200 text-left border-b border-red-500">
         <h3 class="text-sm font-bold">Yozuk: {{ output.title }}</h3>
         <Block v-for="block in output.blocks" :key="block" :block="block" />
     </div>
