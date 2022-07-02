@@ -41,6 +41,24 @@ const count = ref(0)
       <div class=" grow">
       </div>
     </div>
+    <div class="commandbox fixed left-0 md:left-1/2 right-0 bottom-0 px-3 pb-3">
+      <input ref="command" placeholder="Command..." class="
+                bg-gray-300
+                appearance-none
+                rounded
+                w-full
+                py-3
+                px-3
+                text-gray-800
+                leading-tight
+                focus:outline-none
+                opacity-80
+                focus:opacity-100
+                border
+                border-gray-500
+                shadow-lg
+              " type="text" aria-label="Command" />
+    </div>
   </div>
 </template>
 
