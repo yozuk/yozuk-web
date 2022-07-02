@@ -16,9 +16,10 @@ runCommand("BLDdqP~BS16_Efr to qr").then((res) => {
   chatHistory.push({ type: 'echo', body: { text: '100 words dummy text' }, id: counter++ });
   chatHistory.push({ ...res, id: counter++ });
 })
-runCommand("100000 uuid").then((res) => {
+runCommand("TVqQAAMAAAAEAAAA//8AALgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA").then((res) => {
   chatHistory.push({ type: 'echo', body: { text: '100000 uuid' }, id: counter++ });
   chatHistory.push({ ...res, id: counter++ });
+  console.log(res)
 })
 
 </script>
