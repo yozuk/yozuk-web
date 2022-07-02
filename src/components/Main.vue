@@ -42,6 +42,14 @@ const count = ref(0)
       <div class=" grow">
       </div>
     </div>
+    <div class="px-3 py-3 mb-20">
+      <div class="w-full px-4 py-2 mb-3 bg-gray-300 rounded text-left border border-gray-400">
+        history
+      </div>
+      <div class="w-full px-4 py-2 mb-3 bg-gray-300 rounded text-left border border-gray-400">
+        history
+      </div>
+    </div>
     <div class="commandbox fixed left-0 md:left-1/2 right-0 bottom-0 px-3 pb-3">
       <input ref="command" placeholder="Command..." class="
                 bg-gray-300
@@ -53,8 +61,6 @@ const count = ref(0)
                 text-gray-800
                 leading-tight
                 focus:outline-none
-                opacity-80
-                focus:opacity-100
                 border
                 border-gray-500
                 shadow-lg
@@ -64,6 +70,10 @@ const count = ref(0)
 </template>
 
 <style scoped>
+* {
+  scroll-behavior: smooth;
+}
+
 #yozuk-logo {
   max-width: 15rem;
   max-height: 15rem;
