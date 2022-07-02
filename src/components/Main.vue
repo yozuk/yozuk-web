@@ -1,8 +1,23 @@
 <script setup>
-import { ref } from 'vue'
+import Echo from './Echo.vue'
+import Result from './Result.vue'
+import { ref, reactive } from 'vue'
 import { runCommand } from "../yozuk";
 
-const count = ref(0)
+let counter = 0;
+const chatHistory = reactive([]);
+
+runCommand("version info").then((res) => {
+  chatHistory.push({ type: 'echo', body: { text: 'version info' }, id: counter++ });
+  chatHistory.push({ ...res, id: counter++ });
+  console.log(chatHistory)
+})
+runCommand("10 uuid").then((res) => {
+  chatHistory.push({ type: 'echo', body: { text: '10 uuid' }, id: counter++ });
+  chatHistory.push({ ...res, id: counter++ });
+  console.log(chatHistory)
+})
+
 </script>
 
 <template>
@@ -42,12 +57,10 @@ const count = ref(0)
       <div class=" grow">
       </div>
     </div>
-    <div class="px-3 py-3 mb-20">
-      <div class="w-full px-4 py-2 mb-3 bg-gray-300 rounded text-left border border-gray-400">
-        history
-      </div>
-      <div class="w-full px-4 py-2 mb-3 bg-gray-300 rounded text-left border border-gray-400">
-        history
+    <div class="mb-20">
+      <div v-for="msg in chatHistory" :key="msg.id">
+        <Echo v-if="msg.type === 'echo'" :msg="msg" />
+        <Result v-if="msg.type === 'ok'" :msg="msg" />
       </div>
     </div>
     <div class="commandbox fixed left-0 md:left-1/2 right-0 bottom-0 px-3 pb-3">

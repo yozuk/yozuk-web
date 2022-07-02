@@ -1,0 +1,14 @@
+<script setup>
+
+const props = defineProps({
+    msg: Object
+})
+
+</script>
+
+<template>
+    <div class="w-full px-4 py-2 bg-gray-200 text-left border-b border-gray-300">
+        <h3 class="text-sm font-bold">You</h3>
+        <p>{{ msg.body.text }}</p>
+    </div>
+</template>
