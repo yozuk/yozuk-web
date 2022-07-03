@@ -153,7 +153,7 @@ function removeFile(file) {
       </div>
     </div>
     <div class="commandbox fixed left-0 md:left-1/2 right-0 bottom-0">
-      <div class="suggestbox mb-2 px-3 text-left whitespace-pre overflow-x-scroll">
+      <div class="suggestbox mb-2 px-3 text-left whitespace-nowrap overflow-x-scroll">
         <button v-for="item in suggests" :key="item" @click="run(item)" class="
           inline-block
           whitespace-nowrap
