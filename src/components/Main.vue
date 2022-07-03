@@ -49,10 +49,7 @@ const chatHistory = reactive([]);
 const files = reactive([]);
 const suggests = reactive(chance.pickset(randomSuggests, 8));
 
-runCommand("version info").then((res) => {
-  chatHistory.push({ type: 'echo', body: { text: 'version info' }, id: counter++ });
-  chatHistory.push({ ...res, id: counter++ });
-})
+runCommand("version info")
 
 function run(value) {
   if (value.length === 0 && files.length === 0) {
