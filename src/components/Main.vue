@@ -51,6 +51,13 @@ function addFile(event) {
   event.target.value = "";
 }
 
+function removeFile(file) {
+  const index = files.indexOf(file);
+  if (index !== -1) {
+    files.splice(index, 1);
+  }
+}
+
 </script>
 
 <template>
@@ -71,7 +78,7 @@ function addFile(event) {
     <div class=" grow">
     </div>
   </div>
-  <div class="chatbox static md:absolute top-0 right-0 left-1/2">
+  <div class="chatbox static md:absolute top-0 right-0 left-1/2 pb-20">
     <div class="md:hidden flex flex-col py-6 bg-gray-300">
       <div class="grow"></div>
       <div class="grow-0">
@@ -110,8 +117,26 @@ function addFile(event) {
       </div>
     </div>
     <div class="commandbox fixed left-0 md:left-1/2 right-0 bottom-0 px-3 pb-3">
-      <div class="w-full flex py-1 px-3 bg-gray-300 rounded border border-gray-500 shadow-lg">
-        <input ref="command" v-on:keyup.enter="run($refs.command.value)" placeholder=" Command..." class="
+      <div class="w-full bg-gray-300 rounded border border-gray-500 shadow-lg">
+        <div v-if="files.length > 0" class="py-2 mx-2 flex border-b border-gray-500">
+          <button v-for="file in files" :key="file.name" @click="removeFile(file)" style="max-width: 180px" class="
+                inline-block
+                whitespace-nowrap
+                text-ellipsis
+                overflow-hidden
+                bg-gray-100
+                text-gray-800
+                border
+                border-gray-500  
+                mr-2
+                px-2.5
+                py-0.5
+                rounded
+              ">
+            {{ file.name }}</button>
+        </div>
+        <div class="w-full flex py-1 px-3">
+          <input ref="command" v-on:keyup.enter="run($refs.command.value)" placeholder=" Command..." class="
                 appearance-none
                 w-full
                 outline-none
@@ -119,7 +144,7 @@ function addFile(event) {
                 leading-tight
                 bg-transparent
               " type="text" aria-label="Command" />
-        <button @click="$refs.file.click()" class="
+          <button @click="$refs.file.click()" class="
                 text-gray-700
                 rounded-full
                 text-xs
@@ -129,15 +154,15 @@ function addFile(event) {
                 items-center
               ">
 
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            class="feather feather-paperclip">
-            <path
-              d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48">
-            </path>
-          </svg>
-        </button>
-        <button :disabled="chatHistory.length === 0" @click="run($refs.command.value)" class="
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              class="feather feather-paperclip">
+              <path
+                d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48">
+              </path>
+            </svg>
+          </button>
+          <button :disabled="chatHistory.length === 0" @click="run($refs.command.value)" class="
                 text-gray-700
                 rounded-full
                 text-xs
@@ -146,14 +171,15 @@ function addFile(event) {
                 inline-flex
                 items-center
               ">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            class="feather feather-send">
-            <line x1="22" y1="2" x2="11" y2="13"></line>
-            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-          </svg>
-        </button>
-        <input type="file" ref="file" @change="addFile" style="display: none" />
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              class="feather feather-send">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </button>
+          <input type="file" ref="file" @change="addFile" style="display: none" />
+        </div>
       </div>
     </div>
   </div>

@@ -24,7 +24,7 @@ function downloadFile(block) {
             <img class="rounded" :src="`data:${block.media_type};base64, ${encode(block.data)}`">
         </div>
         <div v-else-if="block.type === 'data' && typeof block.data === 'string' && block.data.length < 4096">
-            <pre class="whitespace-pre-wrap"><code>{{ block.data }}</code></pre>
+            <pre class="whitespace-pre-wrap break-all"><code>{{ block.data }}</code></pre>
         </div>
         <div v-else-if="block.type === 'data'">
             <button class="w-full font-bold px-2 py-4 text-gray-700 bg-gray-200 rounded" @click="downloadFile(block)">{{
