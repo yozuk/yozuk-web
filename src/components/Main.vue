@@ -6,7 +6,11 @@ import { ref, reactive } from 'vue'
 import { runCommand } from "../yozuk";
 
 let counter = 0;
+
+const command = ref();
+const loading = ref(1);
 const chatHistory = reactive([]);
+const files = reactive([]);
 
 runCommand("version info").then((res) => {
   chatHistory.push({ type: 'echo', body: { text: 'version info' }, id: counter++ });
@@ -21,6 +25,39 @@ runCommand("TVqQAAMAAAAEAAAA//8AALgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
   chatHistory.push({ ...res, id: counter++ });
   console.log(res)
 })
+
+
+function run(value) {
+  if (value.length === 0 && files.length === 0) {
+    return;
+  }
+  let sentFiles = files.splice(0, files.length);
+  chatHistory.push({
+    type: "echo",
+    body: {
+      text: value,
+      files: sentFiles,
+    },
+    id: counter++,
+  });
+  loading.value++;
+  runCommand(value, sentFiles).then((data) => {
+    loading.value--;
+    chatHistory.push({ ...data, id: counter++ });
+    setTimeout(() => {
+      window.scrollTo(0, document.documentElement.scrollHeight);
+    });
+  });
+  command.value.value = "";
+  setTimeout(() => {
+    window.scrollTo(0, document.documentElement.scrollHeight);
+  });
+}
+
+function addFile(event) {
+  files.push(...event.target.files);
+  event.target.value = "";
+}
 
 </script>
 
@@ -69,20 +106,46 @@ runCommand("TVqQAAMAAAAEAAAA//8AALgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
       </div>
     </div>
     <div class="commandbox fixed left-0 md:left-1/2 right-0 bottom-0 px-3 pb-3">
-      <input ref="command" placeholder="Command..." class="
-                bg-gray-300
+      <div class="w-full flex py-1 px-3 bg-gray-300 rounded border border-gray-500 shadow-lg">
+        <input ref="command" v-on:keyup.enter="run($refs.command.value)" placeholder=" Command..." class="
                 appearance-none
-                rounded
                 w-full
-                py-3
-                px-3
+                outline-none
                 text-gray-800
                 leading-tight
-                focus:outline-none
-                border
-                border-gray-500
-                shadow-lg
+                bg-transparent
               " type="text" aria-label="Command" />
+        <button @click="$refs.file.click()" class="
+                text-gray-700
+                rounded-full
+                text-xs
+                p-2.5
+                text-center
+                inline-flex
+                items-center
+              ">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13">
+            </path>
+          </svg>
+        </button>
+        <button :disabled="chatHistory.length === 0" @click="run($refs.command.value)" class="
+                text-gray-700
+                rounded-full
+                text-xs
+                p-2.5
+                text-center
+                inline-flex
+                items-center
+              ">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8">
+            </path>
+          </svg>
+        </button>
+        <input type="file" ref="file" @change="addFile" style="display: none" />
+      </div>
     </div>
   </div>
 </template>
