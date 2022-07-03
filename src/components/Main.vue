@@ -9,14 +9,21 @@ import { runCommand, randomSuggests } from "../yozuk";
 let counter = 0;
 
 const command = ref();
-const loading = ref(1);
+const loading = ref(false);
 const chatHistory = reactive([]);
 const files = reactive([]);
 const suggests = reactive([]);
 
+const timeoutHandler = setTimeout(() => {
+  if (!loading.value) {
+    loading.value = true;
+  }
+}, 500)
+
 randomSuggests(8).then((items) => {
-  console.log(suggests)
   suggests.push(...items);
+  loading.value = false;
+  clearTimeout(timeoutHandler);
 })
 
 function run(value) {
@@ -32,10 +39,7 @@ function run(value) {
     },
     id: counter++,
   });
-  loading.value++;
   runCommand(value, sentFiles).then((data) => {
-    console.log(data)
-    loading.value--;
     chatHistory.push({ ...data, id: counter++ });
     setTimeout(() => {
       window.scrollTo(0, document.documentElement.scrollHeight);
@@ -115,6 +119,20 @@ function removeFile(file) {
         <p class="px-4 md:px-6 my-2">👋Hi, I'm your personal assistant.
           <br>If you have no idea what to say, try the suggested commands below!
         </p>
+      </div>
+      <div v-if="loading" class=" mt-4 mx-3 py-2">
+        <svg class="animate-spin feather feather-loader mx-auto" width="24" height="24" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="2" x2="12" y2="6"></line>
+          <line x1="12" y1="18" x2="12" y2="22"></line>
+          <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+          <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+          <line x1="2" y1="12" x2="6" y2="12"></line>
+          <line x1="18" y1="12" x2="22" y2="12"></line>
+          <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
+          <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+        </svg>
+        <h2>Loading...</h2>
       </div>
       <div v-for="msg in chatHistory" :key="msg.id">
         <Echo v-if="msg.type === 'echo'" :msg="msg" />
