@@ -3,53 +3,21 @@ import Echo from './Echo.vue'
 import Result from './Result.vue'
 import Error from './Error.vue'
 import NoCommand from './NoCommand.vue'
-import Chance from "chance";
 import { ref, reactive } from 'vue'
-import { runCommand } from "../yozuk";
+import { runCommand, randomSuggests } from "../yozuk";
 
 let counter = 0;
-
-const chance = new Chance();
-const randomSuggests = [
-  `generate ${chance.integer({ min: 2, max: 10 })} UUIDs`,
-  `(2 + ${chance.prime()}) * 25`,
-  `${chance.integer({ min: 5, max: 10 }) * 10} words dummy text`,
-  `Roll ${chance.integer({ min: 2, max: 10 })} dice`,
-  `"${chance.profession()}" to base64`,
-  `"${chance.profession()}" into ${chance.pickone([
-    "md5",
-    "sha1",
-    "sha512",
-    "sha3-256",
-    "crc32",
-  ])}`,
-  `${chance.integer({ min: 2, max: 10 })} NanoID`,
-  `${chance.integer({ min: 100, max: 5000 })}${chance.pickone([
-    "km",
-    "ft",
-    "oz.",
-    "kg",
-  ])}`,
-  `${chance.pickone(["🦊", "🐼", "🐰", "🐶", "🐯"])}.example.com`,
-  chance.color({ format: "rgb" }),
-  `is ${chance.integer({ min: 100, max: 500000 })} a prime number?`,
-  chance.pickone([
-    "BLDdqP~BS16_Efr@",
-    "BcNS{u7gO=?^jDV@",
-    "BeIFDD?bVY~Tx]xA",
-    "B58|-gTA009D?0PE",
-    "BUK^K$01Im~pMeSc"
-  ]),
-];
-
 
 const command = ref();
 const loading = ref(1);
 const chatHistory = reactive([]);
 const files = reactive([]);
-const suggests = reactive(chance.pickset(randomSuggests, 8));
+const suggests = reactive([]);
 
-runCommand("version info")
+randomSuggests(8).then((items) => {
+  console.log(suggests)
+  suggests.push(...items);
+})
 
 function run(value) {
   if (value.length === 0 && files.length === 0) {
@@ -145,8 +113,7 @@ function removeFile(file) {
       <div class="rounded mt-4 mx-3 py-2 bg-gray-600 text-gray-200 text-left shadow-xl">
         <h3 class="text-sm font-bold px-2 md:px-4">Yozuk</h3>
         <p class="px-4 md:px-6 my-2">👋Hi, I'm your personal assistant.
-          <br>If you have no idea what to say, please try
-          the suggested commands below!
+          <br>If you have no idea what to say, try the suggested commands below!
         </p>
       </div>
       <div v-for="msg in chatHistory" :key="msg.id">

@@ -31,3 +31,7 @@ export async function runCommand(command: string, files: File[] = []) {
         }
     }
 }
+
+export async function randomSuggests(n: number) {
+    return await worker.postMessage(["randomSuggests", n]);
+}
