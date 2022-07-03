@@ -3,15 +3,51 @@ import Echo from './Echo.vue'
 import Result from './Result.vue'
 import Error from './Error.vue'
 import NoCommand from './NoCommand.vue'
+import Chance from "chance";
 import { ref, reactive } from 'vue'
 import { runCommand } from "../yozuk";
 
 let counter = 0;
 
+const chance = new Chance();
+const randomSuggests = [
+  `generate ${chance.integer({ min: 2, max: 10 })} UUIDs`,
+  `(2 + ${chance.prime()}) * 25`,
+  `${chance.integer({ min: 5, max: 10 }) * 10} words dummy text`,
+  `Roll ${chance.integer({ min: 2, max: 10 })} dice`,
+  `"${chance.profession()}" to base64`,
+  `"${chance.profession()}" into ${chance.pickone([
+    "md5",
+    "sha1",
+    "sha512",
+    "sha3-256",
+    "crc32",
+  ])}`,
+  `${chance.integer({ min: 2, max: 10 })} NanoID`,
+  `${chance.integer({ min: 100, max: 5000 })}${chance.pickone([
+    "km",
+    "ft",
+    "oz.",
+    "kg",
+  ])}`,
+  `${chance.pickone(["🦊", "🐼", "🐰", "🐶", "🐯"])}.example.com`,
+  chance.color({ format: "rgb" }),
+  `is ${chance.integer({ min: 100, max: 500000 })} a prime number?`,
+  chance.pickone([
+    "BLDdqP~BS16_Efr@",
+    "BcNS{u7gO=?^jDV@",
+    "BeIFDD?bVY~Tx]xA",
+    "B58|-gTA009D?0PE",
+    "BUK^K$01Im~pMeSc"
+  ]),
+];
+
+
 const command = ref();
 const loading = ref(1);
 const chatHistory = reactive([]);
 const files = reactive([]);
+const suggests = reactive(chance.pickset(randomSuggests, 8));
 
 runCommand("version info").then((res) => {
   chatHistory.push({ type: 'echo', body: { text: 'version info' }, id: counter++ });
@@ -65,7 +101,7 @@ function removeFile(file) {
     <div class="grow"></div>
     <div class="grow-0">
       <h1 class="text-6xl text-gray-900 font-bold">Yozuk</h1>
-      <h2 class="text-4xl text-gray-500">Chatbot for <span class="underline">programmers</span></h2>
+      <h2 class="text-4xl text-gray-500">Chatbot for <span class="underline">programmers.</span></h2>
     </div>
     <div class="grow-0 my-8">
       <img id="yozuk-logo" class="mx-auto" alt="Yozuk logo" src="./../assets/logo.svg" />
@@ -83,7 +119,7 @@ function removeFile(file) {
       <div class="grow"></div>
       <div class="grow-0">
         <h1 class="text-5xl text-gray-900 font-bold">Yozuk</h1>
-        <h2 class="text-2xl text-gray-500">Chatbot for <span class="underline">programmers</span></h2>
+        <h2 class="text-2xl text-gray-500">Chatbot for <span class="underline">programmers.</span></h2>
       </div>
       <div class="grow-0 my-3">
         <img id="yozuk-logo" class="mx-auto" alt="Yozuk logo" src="./../assets/logo.svg" />
@@ -116,10 +152,28 @@ function removeFile(file) {
         <NoCommand v-if="msg.type === 'no_command'" />
       </div>
     </div>
-    <div class="commandbox fixed left-0 md:left-1/2 right-0 bottom-0 px-3 pb-3">
-      <div class="w-full bg-gray-300 rounded border border-gray-500 shadow-lg">
-        <div v-if="files.length > 0" class="py-2 mx-2 flex border-b border-gray-500">
-          <button v-for="file in files" :key="file.name" @click="removeFile(file)" style="max-width: 180px" class="
+    <div class="commandbox fixed left-0 md:left-1/2 right-0 bottom-0">
+      <div class="suggestbox mb-2 px-3 text-left whitespace-pre overflow-x-scroll">
+        <button v-for="item in suggests" :key="item" @click="run(item)" class="
+          inline-block
+          whitespace-nowrap
+          text-ellipsis
+          overflow-hidden
+          bg-gray-100
+          text-gray-800
+          border
+          border-gray-500
+          mr-2
+          px-2.5
+          py-0.5
+          rounded-full
+              ">
+          {{ item }}</button>
+      </div>
+      <div class="px-3 pb-3">
+        <div class="w-full bg-gray-300 rounded border border-gray-500 shadow-lg">
+          <div v-if="files.length > 0" class="py-2 mx-2 flex border-b border-gray-500">
+            <button v-for="file in files" :key="file.name" @click="removeFile(file)" style="max-width: 180px" class="
                 inline-block
                 whitespace-nowrap
                 text-ellipsis
@@ -133,10 +187,10 @@ function removeFile(file) {
                 py-0.5
                 rounded
               ">
-            {{ file.name }}</button>
-        </div>
-        <div class="w-full flex py-1 px-3">
-          <input ref="command" v-on:keyup.enter="run($refs.command.value)" placeholder=" Command..." class="
+              {{ file.name }}</button>
+          </div>
+          <div class="w-full flex py-1 px-3">
+            <input ref="command" v-on:keyup.enter="run($refs.command.value)" placeholder=" Command..." class="
                 appearance-none
                 w-full
                 outline-none
@@ -144,7 +198,7 @@ function removeFile(file) {
                 leading-tight
                 bg-transparent
               " type="text" aria-label="Command" />
-          <button @click="$refs.file.click()" class="
+            <button @click="$refs.file.click()" class="
                 text-gray-700
                 rounded-full
                 text-xs
@@ -154,15 +208,15 @@ function removeFile(file) {
                 items-center
               ">
 
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-              class="feather feather-paperclip">
-              <path
-                d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48">
-              </path>
-            </svg>
-          </button>
-          <button :disabled="chatHistory.length === 0" @click="run($refs.command.value)" class="
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="feather feather-paperclip">
+                <path
+                  d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48">
+                </path>
+              </svg>
+            </button>
+            <button :disabled="chatHistory.length === 0" @click="run($refs.command.value)" class="
                 text-gray-700
                 rounded-full
                 text-xs
@@ -171,14 +225,15 @@ function removeFile(file) {
                 inline-flex
                 items-center
               ">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-              class="feather feather-send">
-              <line x1="22" y1="2" x2="11" y2="13"></line>
-              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-            </svg>
-          </button>
-          <input type="file" ref="file" @change="addFile" style="display: none" />
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="feather feather-send">
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+              </svg>
+            </button>
+            <input type="file" ref="file" @change="addFile" style="display: none" />
+          </div>
         </div>
       </div>
     </div>
@@ -188,6 +243,16 @@ function removeFile(file) {
 <style scoped>
 * {
   scroll-behavior: smooth;
+}
+
+.suggestbox {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.suggestbox::-webkit-scrollbar {
+  display: none;
 }
 
 #yozuk-logo {
@@ -202,6 +267,7 @@ function removeFile(file) {
 
 h1,
 h2,
+h3,
 button {
   font-family: 'Barlow Condensed', sans-serif;
 }
