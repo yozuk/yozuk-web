@@ -142,6 +142,13 @@ function removeFile(file) {
         <p class="ml-2">Your inputs will never be sent to the server.</p>
         <p class="grow"></p>
       </div>
+      <div class="rounded mt-4 mx-3 py-2 bg-gray-600 text-gray-200 text-left shadow-xl">
+        <h3 class="text-sm font-bold px-2 md:px-4">Yozuk</h3>
+        <p class="px-4 md:px-6 my-2">👋Hi, I'm your personal assistant.
+          <br>If you have no idea what to say, please try
+          the suggested commands below!
+        </p>
+      </div>
       <div v-for="msg in chatHistory" :key="msg.id">
         <Echo v-if="msg.type === 'echo'" :msg="msg" />
         <Result v-if="msg.type === 'ok'" :msg="msg" />
@@ -264,7 +271,6 @@ function removeFile(file) {
 
 h1,
 h2,
-h3,
 button {
   font-family: 'Barlow Condensed', sans-serif;
 }
