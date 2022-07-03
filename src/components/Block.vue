@@ -32,7 +32,7 @@ function downloadFile(block) {
             }} ({{ prettyBytes(block.data.length || block.data.byteLength) }})</button>
         </div>
         <div v-else-if="block.type === 'comment'">
-            <p>{{ block.text }}</p>
+            <p class="text-sm">{{ block.text }}</p>
         </div>
     </div>
 </template>
