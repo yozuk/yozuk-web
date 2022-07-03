@@ -2,6 +2,7 @@
 import Echo from './Echo.vue'
 import Result from './Result.vue'
 import Error from './Error.vue'
+import NoCommand from './NoCommand.vue'
 import { ref, reactive } from 'vue'
 import { runCommand } from "../yozuk";
 
@@ -16,16 +17,6 @@ runCommand("version info").then((res) => {
   chatHistory.push({ type: 'echo', body: { text: 'version info' }, id: counter++ });
   chatHistory.push({ ...res, id: counter++ });
 })
-runCommand("BLDdqP~BS16_Efr to qr").then((res) => {
-  chatHistory.push({ type: 'echo', body: { text: '100 words dummy text' }, id: counter++ });
-  chatHistory.push({ ...res, id: counter++ });
-})
-runCommand("TVqQAAMAAAAEAAAA//8AALgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA").then((res) => {
-  chatHistory.push({ type: 'echo', body: { text: '100000 uuid' }, id: counter++ });
-  chatHistory.push({ ...res, id: counter++ });
-  console.log(res)
-})
-
 
 function run(value) {
   if (value.length === 0 && files.length === 0) {
@@ -42,6 +33,7 @@ function run(value) {
   });
   loading.value++;
   runCommand(value, sentFiles).then((data) => {
+    console.log(data)
     loading.value--;
     chatHistory.push({ ...data, id: counter++ });
     setTimeout(() => {
@@ -99,10 +91,22 @@ function addFile(event) {
       </div>
     </div>
     <div class="mb-20">
+      <div class="flex items-center w-full py-4 bg-gray-100 text-gray-500 text-sm font-bold">
+        <p class="grow"></p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="feather feather-lock">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+        <p class="ml-2">Your inputs will never be sent to the server.</p>
+        <p class="grow"></p>
+      </div>
       <div v-for="msg in chatHistory" :key="msg.id">
         <Echo v-if="msg.type === 'echo'" :msg="msg" />
         <Result v-if="msg.type === 'ok'" :msg="msg" />
         <Error v-if="msg.type === 'fail'" :msg="msg" />
+        <NoCommand v-if="msg.type === 'no_command'" />
       </div>
     </div>
     <div class="commandbox fixed left-0 md:left-1/2 right-0 bottom-0 px-3 pb-3">
