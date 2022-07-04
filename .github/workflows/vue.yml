@@ -15,5 +15,5 @@ jobs:
       with:
         username: 'yozuk'
         reponame: 'yozuk-web'
-        cname: 'test.yozuk.com'
+        cname: 'yozuk.com'
         token: ${{ secrets.GITHUB_TOKEN }}
