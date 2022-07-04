@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.3.3",
-    "@yozuk/yozuk-wasm": "^0.19.2",
+    "@yozuk/yozuk-wasm": "^0.19.3",
     "autoprefixer": "^10.4.7",
     "postcss": "^8.4.14",
     "tailwindcss": "^3.1.4",
