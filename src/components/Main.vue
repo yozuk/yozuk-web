@@ -63,6 +63,10 @@ function removeFile(file) {
   }
 }
 
+function onWheel(event) {
+  event.currentTarget.scrollLeft += event.deltaY * 2.0;
+}
+
 </script>
 
 <template>
@@ -144,7 +148,7 @@ function removeFile(file) {
     <div class="commandbox fixed left-0 md:left-1/2 right-0 bottom-0">
       <div class="cover-gradient"></div>
       <div class="cover-bg">
-        <div class="suggestbox mb-2 px-3 text-left whitespace-nowrap overflow-x-scroll">
+        <div @wheel="onWheel" class="suggestbox mb-2 px-3 text-left whitespace-nowrap overflow-x-scroll">
           <button v-for="item in suggests" :key="item" @click="run(item)" class="
           inline-block
           whitespace-nowrap
