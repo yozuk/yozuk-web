@@ -9,5 +9,9 @@ registerWebworker(async (message, emit) => {
             return await yo.exec(message[1], message[2]);
         case 'randomSuggests':
             return await yo.random_suggests(message[1]);
+        case 'setSuggestsStreams':
+            return await yo.set_suggests_streams(message[1]);
+        case 'suggests':
+            return await yo.suggests(message[1], message[2]);
     }
 });

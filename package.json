@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@yozuk/yozuk-wasm": "^0.20.1",
     "base64-arraybuffer": "^1.0.2",
     "js-file-download": "^0.4.12",
     "mime-types": "^2.1.35",
@@ -17,7 +18,6 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.3.3",
-    "@yozuk/yozuk-wasm": "^0.19.3",
     "autoprefixer": "^10.4.7",
     "postcss": "^8.4.14",
     "tailwindcss": "^3.1.4",

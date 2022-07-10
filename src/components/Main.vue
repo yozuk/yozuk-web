@@ -4,7 +4,7 @@ import Result from './Result.vue'
 import Error from './Error.vue'
 import NoCommand from './NoCommand.vue'
 import { ref, reactive } from 'vue'
-import { runCommand, randomSuggests } from "../yozuk";
+import { runCommand, randomSuggests, setSuggestsStreams, suggests as getSuggests } from "../yozuk";
 
 let counter = 0;
 
@@ -49,17 +49,37 @@ function run(value) {
   setTimeout(() => {
     window.scrollTo(0, document.documentElement.scrollHeight);
   });
+  updateFile();
 }
 
 function addFile(event) {
   files.push(...event.target.files);
   event.target.value = "";
+  updateFile();
 }
 
 function removeFile(file) {
   const index = files.indexOf(file);
   if (index !== -1) {
     files.splice(index, 1);
+  }
+  updateFile();
+}
+
+async function updateFile() {
+  await setSuggestsStreams(files);
+  await updateSuggests();
+}
+
+async function updateSuggests() {
+  if (command.value.value.length > 0 || files.length > 0) {
+    let newSuggests = await getSuggests(command.value.value, 8);
+    suggests.splice(0);
+    suggests.push(...newSuggests);
+  } else {
+    let newSuggests = await randomSuggests(8);
+    suggests.splice(0);
+    suggests.push(...newSuggests);
   }
 }
 
@@ -185,7 +205,8 @@ function onWheel(event) {
                 {{ file.name }}</button>
             </div>
             <div class="w-full flex py-1 px-3">
-              <input ref="command" v-on:keyup.enter="run($refs.command.value)" placeholder=" Command..." class="
+              <input ref="command" @input="updateSuggests" v-on:keyup.enter="run($refs.command.value)"
+                placeholder=" Command..." class="
                 appearance-none
                 w-full
                 outline-none

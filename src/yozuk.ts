@@ -35,3 +35,12 @@ export async function runCommand(command: string, files: File[] = []) {
 export async function randomSuggests(n: number) {
     return await worker.postMessage(["randomSuggests", n]);
 }
+
+export async function setSuggestsStreams(files: File[] = []) {
+    const buffers = await Promise.all(files.map((file) => file.arrayBuffer()))
+    return await worker.postMessage(["setSuggestsStreams", buffers]);
+}
+
+export async function suggests(command: string, n: number) {
+    return await worker.postMessage(["suggests", command, n]);
+}
