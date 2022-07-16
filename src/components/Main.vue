@@ -160,9 +160,11 @@ function onWheel(event) {
       </div>
       <div v-for="msg in chatHistory" :key="msg.id">
         <Echo v-if="msg.type === 'echo'" :msg="msg" />
-        <Result v-if="msg.type === 'ok'" :msg="msg" />
-        <Error v-if="msg.type === 'fail'" :msg="msg" />
-        <NoCommand v-if="msg.type === 'no_command'" />
+        <div class="fadein">
+          <Result v-if="msg.type === 'ok'" :msg="msg" />
+          <Error v-if="msg.type === 'fail'" :msg="msg" />
+          <NoCommand v-if="msg.type === 'no_command'" />
+        </div>
       </div>
     </div>
     <div class="commandbox fixed left-0 md:left-1/2 right-0 bottom-0">
@@ -258,10 +260,6 @@ function onWheel(event) {
 </template>
 
 <style scoped>
-* {
-  scroll-behavior: smooth;
-}
-
 .suggestbox {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -288,6 +286,26 @@ function onWheel(event) {
 .chatbox #yozuk-logo {
   max-width: 10rem;
   max-height: 10rem;
+}
+
+.fadein {
+  opacity: 0;
+  transform: translateY(2em);
+  animation: fadeInAnimation ease 0.8s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+    transform: translateY(2em);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 h1,
