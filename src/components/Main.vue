@@ -291,7 +291,7 @@ function onWheel(event) {
 .fadein {
   opacity: 0;
   transform: translateY(2em);
-  animation: fadeInAnimation ease 0.8s;
+  animation: fadeInAnimation ease 0.4s;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
 }
