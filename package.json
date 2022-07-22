@@ -8,7 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@yozuk/yozuk-wasm": "^0.20.6",
+    "@yozuk/yozuk-wasm": "^0.20.9",
     "base64-arraybuffer": "^1.0.2",
     "js-file-download": "^0.4.12",
     "mime-types": "^2.1.35",
