@@ -16,6 +16,25 @@ function downloadFile(block) {
     const filename = file_name(block);
     download(block.data, filename);
 }
+
+function splitText(data, hl) {
+    let highlights = hl || [{ kind: "value", range: { start: 0, end: data.length } }];
+    let sections = [];
+    let offset = 0;
+    for (const highlight of highlights) {
+        const text = data.slice(offset, highlight.range.start);
+        if (text.length > 0) {
+            sections.push({ text, value: false });
+        }
+        sections.push({ text: data.slice(highlight.range.start, highlight.range.end), value: true });
+        offset = highlight.range.end;
+    }
+    const text = data.slice(offset);
+    if (text.length > 0) {
+        sections.push({ text, value: false });
+    }
+    return sections;
+}
 </script>
 
 <template>
@@ -25,7 +44,11 @@ function downloadFile(block) {
         </div>
         <div class="px-2 md:px-4 py-3 bg-gray-800"
             v-else-if="block.type === 'data' && typeof block.data === 'string' && block.data.length < 4096">
-            <pre class="whitespace-pre-wrap break-all"><code>{{ block.data }}</code></pre>
+            <pre class="whitespace-pre-wrap break-all"><code><span 
+                v-for="section in splitText(block.data, block.highlights)" 
+                :key="section.text"
+                :class="{ 'opacity-60': !section.value }"
+                >{{ section.text }}</span></code></pre>
         </div>
         <div class="px-2 md:px-4 py-3" v-else-if="block.type === 'data'">
             <button class="w-full font-bold px-2 py-4 text-gray-700 bg-gray-200 rounded" @click="downloadFile(block)">{{
