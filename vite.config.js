@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import sri from "rollup-plugin-sri"
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -9,5 +10,11 @@ export default defineConfig({
       target: 'es2020'
     }
   },
-  plugins: [vue()]
+  plugins: [
+    vue(),
+    {
+      enforce: "post",
+      ...sri({ publicPath: "/" })
+    }
+  ]
 })
