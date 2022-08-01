@@ -57,7 +57,7 @@ function splitText(data, hl) {
                         file_name(block)
                 }} ({{ prettyBytes(block.data.length || block.data.byteLength) }})</button>
         </div>
-        <div class="px-2 md:px-4 my-2" v-else-if="block.type === 'comment'">
+        <div class="px-2 md:px-4 mb-2 text-sm" v-else-if="block.type === 'comment'">
             <p>{{ block.text }}</p>
         </div>
     </div>
