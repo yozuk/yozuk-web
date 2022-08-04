@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;500&display=swap');
-@import url('https://pvinis.github.io/iosevka-webfont/7.0.2/iosevka.css');
+@import url('/iosevka/iosevka.css');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
