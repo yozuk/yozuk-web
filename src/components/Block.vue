@@ -17,21 +17,30 @@ function downloadFile(block) {
     download(block.data, filename);
 }
 
-function splitText(data, hl) {
-    let highlights = hl || [{ kind: "value", range: { start: 0, end: data.length } }];
+function splitText(data, highlights) {
     let sections = [];
     let offset = 0;
-    for (const highlight of highlights) {
-        const text = data.slice(offset, highlight.range.start);
-        if (text.length > 0) {
-            sections.push({ text, value: false });
+    if (highlights) {
+        for (const highlight of highlights) {
+            const text = data.slice(offset, highlight.range.start);
+            if (text.length > 0) {
+                sections.push({ text, value: false });
+            }
+            sections.push({ text: data.slice(highlight.range.start, highlight.range.end), value: true });
+            offset = highlight.range.end;
         }
-        sections.push({ text: data.slice(highlight.range.start, highlight.range.end), value: true });
-        offset = highlight.range.end;
+    } else {
+        while (true) {
+            const pos = data.indexOf('\n', offset);
+            if (pos < 0) break;
+            sections.push({ text: data.slice(offset, pos), value: true });
+            sections.push({ text: '\n', value: false });
+            offset = pos + 1;
+        }
     }
     const text = data.slice(offset);
     if (text.length > 0) {
-        sections.push({ text, value: false });
+        sections.push({ text, value: true });
     }
     return sections;
 }
@@ -48,7 +57,7 @@ function splitText(data, hl) {
             <pre class="whitespace-pre-wrap break-all"><code><span 
                 v-for="section in splitText(block.data, block.highlights)" 
                 :key="section.text"
-                :class="{ 'opacity-60': !section.value }"
+                :class="{ 'opacity-60': !section.value, 'select-all': true }"
                 >{{ section.text }}</span></code></pre>
         </div>
         <div class="px-2 md:px-4 py-2 md:py-4 bg-gray-800" v-else-if="block.type === 'data'">
