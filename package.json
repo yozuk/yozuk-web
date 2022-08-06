@@ -11,6 +11,7 @@
     "@yozuk/yozuk-wasm": "^0.22.2",
     "base64-arraybuffer": "^1.0.2",
     "js-file-download": "^0.4.12",
+    "markdown-it": "^13.0.1",
     "mime-types": "^2.1.35",
     "pretty-bytes": "^6.0.0",
     "vue": "^3.2.25",

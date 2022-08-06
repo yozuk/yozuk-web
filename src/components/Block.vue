@@ -3,6 +3,9 @@ import { encode } from "base64-arraybuffer";
 import { extension } from 'mime-types';
 import prettyBytes from 'pretty-bytes';
 import download from "js-file-download";
+import MarkdownIt from 'markdown-it';
+
+const md = new MarkdownIt({ linkify: true });
 
 const props = defineProps({
     block: Object
@@ -67,13 +70,17 @@ function splitText(data, highlights) {
                 }} ({{ prettyBytes(block.data.length || block.data.byteLength) }})</button>
         </div>
         <div class="px-2 md:px-4 mb-2 text-sm" v-else-if="block.type === 'comment'">
-            <p>{{ block.text }}</p>
+            <p v-html="md.render(block.text)"></p>
         </div>
     </div>
 </template>
 
-<style scoped>
+<style>
 code {
     font-family: 'Iosevka Web', monospace;
+}
+
+p>a {
+    text-decoration: underline;
 }
 </style>
