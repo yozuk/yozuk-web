@@ -75,12 +75,8 @@ function splitText(data, highlights) {
     </div>
 </template>
 
-<style>
+<style scoped>
 code {
     font-family: 'Iosevka Web', monospace;
-}
-
-p>a {
-    text-decoration: underline;
 }
 </style>
