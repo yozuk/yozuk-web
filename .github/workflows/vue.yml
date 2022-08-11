@@ -17,3 +17,11 @@ jobs:
         reponame: 'yozuk-web'
         cname: 'yozuk.com'
         token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Deploy to Netlify
+      uses: nwtgck/actions-netlify@v1.2
+      with:
+        publish-dir: './dist'
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+      env:
+        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
