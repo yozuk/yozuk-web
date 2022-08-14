@@ -9,6 +9,6 @@ const props = defineProps({
 <template>
     <div class="mx-3 px-2 md:px-4 py-2 md:py-4 text-left">
         <h3 class="text-sm font-bold">You</h3>
-        <p>{{ msg.body.text }}</p>
+        <p class="overflow-hidden text-ellipsis">{{ msg.body.text }}</p>
     </div>
 </template>
