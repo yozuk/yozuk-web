@@ -53,18 +53,9 @@ p>a {
 }
 
 ::-webkit-scrollbar-track {
-  background: #e5e7eb;
-  border: 0px none #ffffff;
-  border-radius: 50px;
-}
-
-::-webkit-scrollbar-track:hover {
-  background: #e5e7eb;
-}
-
-::-webkit-scrollbar-track:active {
-  background: #e5e7eb;
-}
+  background: #d1d5db;
+  border: 0;
+} 
 
 ::-webkit-scrollbar-corner {
   background: transparent;
