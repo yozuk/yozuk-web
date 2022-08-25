@@ -108,7 +108,7 @@ function onWheel(event) {
     </div>
   </div>
   <div class="chatbox static md:absolute top-0 right-0 left-1/2 pb-20">
-    <div class="md:hidden flex flex-col py-6 bg-gray-300">
+    <div v-if="!$iframeMode" class="md:hidden flex flex-col py-6 bg-gray-300">
       <div class="grow"></div>
       <div class="grow-0">
         <h1 class="text-5xl text-gray-900 font-bold">Yozuk</h1>
@@ -127,7 +127,7 @@ function onWheel(event) {
       </div>
     </div>
     <div class="mb-20">
-      <div class="flex items-center w-full py-4 bg-gray-100 text-gray-500 text-sm font-bold">
+      <div v-if="!$iframeMode" class="flex items-center w-full py-4 bg-gray-100 text-gray-500 text-sm font-bold">
         <p class="grow"></p>
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
           stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
