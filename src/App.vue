@@ -28,4 +28,51 @@ body {
 p>a {
   text-decoration: underline;
 }
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-button {
+  width: 0px;
+  height: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4b5563;
+  border: 0px none #ffffff;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4b5563;
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: #1f2937;
+}
+
+::-webkit-scrollbar-track {
+  background: #e5e7eb;
+  border: 0px none #ffffff;
+  border-radius: 50px;
+}
+
+::-webkit-scrollbar-track:hover {
+  background: #e5e7eb;
+}
+
+::-webkit-scrollbar-track:active {
+  background: #e5e7eb;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+@media (min-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+}
 </style>
