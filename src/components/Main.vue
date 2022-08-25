@@ -20,12 +20,6 @@ const timeoutHandler = setTimeout(() => {
   }
 }, 500)
 
-randomSuggests(8).then((items) => {
-  suggests.push(...items);
-  loading.value = false;
-  clearTimeout(timeoutHandler);
-})
-
 function run(value) {
   if (value.length === 0 && files.length === 0) {
     return;
@@ -88,6 +82,11 @@ function onWheel(event) {
 }
 
 window.addEventListener('load', (event) => {
+  randomSuggests(8).then((items) => {
+    suggests.push(...items);
+    loading.value = false;
+    clearTimeout(timeoutHandler);
+  });
   if (window.location !== window.parent.location) {
     command.value.focus();
   }
