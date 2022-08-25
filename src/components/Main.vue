@@ -3,7 +3,7 @@ import Echo from './Echo.vue'
 import Result from './Result.vue'
 import Error from './Error.vue'
 import NoCommand from './NoCommand.vue'
-import { ref, reactive } from 'vue'
+import { ref, reactive, inject } from 'vue'
 import { runCommand, randomSuggests, setSuggestsStreams, suggests as getSuggests } from "../yozuk";
 
 let counter = 0;
@@ -86,6 +86,12 @@ async function updateSuggests() {
 function onWheel(event) {
   event.currentTarget.scrollLeft += event.deltaY * 2.0;
 }
+
+window.addEventListener('load', (event) => {
+  if (window.location !== window.parent.location) {
+    command.value.focus();
+  }
+});
 
 </script>
 
