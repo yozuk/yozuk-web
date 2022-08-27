@@ -99,7 +99,8 @@ window.addEventListener('load', (event) => {
     <div class="grow"></div>
     <div class="grow-0">
       <h1 class="text-6xl text-gray-900 font-bold">Yozuk</h1>
-      <h2 class="text-4xl text-gray-500">Chatbot for <span class="underline">programmers.</span></h2>
+      <h2 class="text-3xl text-gray-500 mt-4 px-6">A secure, portable and smart bot for <span
+          class="underline">programmers.</span></h2>
     </div>
     <div class="grow-0 my-8">
       <img id="yozuk-logo" class="mx-auto" alt="Yozuk logo" src="./../assets/logo.svg" />
@@ -117,7 +118,8 @@ window.addEventListener('load', (event) => {
       <div class="grow"></div>
       <div class="grow-0">
         <h1 class="text-5xl text-gray-900 font-bold">Yozuk</h1>
-        <h2 class="text-2xl text-gray-500">Chatbot for <span class="underline">programmers.</span></h2>
+        <h2 class="text-2xl text-gray-500">A secure, portable and smart bot for <span
+            class="underline">programmers.</span></h2>
       </div>
       <div class="grow-0 my-3">
         <img id="yozuk-logo" class="mx-auto" alt="Yozuk logo" src="./../assets/logo.svg" />
